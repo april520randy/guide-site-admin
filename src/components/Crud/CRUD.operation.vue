@@ -6,12 +6,12 @@
       <el-button v-if="crud.optShow.add" v-permission="permission.add" class="filter-item" size="mini" type="primary" icon="el-icon-plus" @click="crud.toAdd">
         <span v-if="!isMobile">新增</span>
       </el-button>
-      <el-button v-if="crud.optShow.edit" v-permission="permission.edit" class="filter-item" size="mini" type="success" icon="el-icon-edit" :disabled="crud.selections.length !== 1" @click="crud.toEdit(crud.selections[0])">
+      <!-- <el-button v-if="crud.optShow.edit" v-permission="permission.edit" class="filter-item" size="mini" type="success" icon="el-icon-edit" :disabled="crud.selections.length !== 1" @click="crud.toEdit(crud.selections[0])">
         <span v-if="!isMobile">修改</span>
       </el-button>
       <el-button v-if="crud.optShow.del" slot="reference" v-permission="permission.del" class="filter-item" type="danger" icon="el-icon-delete" size="mini" :loading="crud.delAllLoading" :disabled="crud.selections.length === 0" @click="toDelete(crud.selections)">
         <span v-if="!isMobile">删除</span>
-      </el-button>
+      </el-button> -->
       <!--右侧-->
       <slot name="right" />
     </span>
@@ -83,6 +83,7 @@ export default {
       ignoreNextTableColumnsChange: false
     }
   },
+
   watch: {
     '$store.getters.device'() {
       this.isMobile = this.$store.getters.device === 'mobile'
@@ -101,6 +102,7 @@ export default {
     }
   },
   created() {
+    console.log('crud',this.crud)
     this.crud.updateProp('searchToggle', true)
   },
   methods: {
