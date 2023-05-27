@@ -89,6 +89,11 @@
       :title="title"
     >
       <el-form ref="form" :model="form" size="small" label-width="100px">
+        <el-form-item label="可见状态">
+          <el-radio v-model="form.status" :label="1">显示</el-radio>
+          <el-radio v-model="form.status" :label="0">隐藏</el-radio>
+        </el-form-item>
+
         <el-form-item label="类型" prop="type">
           <el-select v-model="form.type" placeholder="请选择">
             <el-option
@@ -182,6 +187,9 @@
             @keydown.native="keydown($event)"
           />
         </el-form-item>
+        <el-form-item label="排序">
+          <el-input-number v-model="form.sort" :min="1" :max="999" label="描述文字"></el-input-number>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="text" @click="canncel">取消</el-button>
@@ -206,12 +214,14 @@ const initForm = () => ({
   bbannerBtnLink: "",
   bbannerBtn2: "",
   bbannerBtn2Link: "",
+  status:1,
+  sort:1,
 });
 export default {
   data() {
     return {
       loading: false,
-      isShowDialog: true,
+      isShowDialog: false,
       data: [],
       status: 1, //1:新增 2:编辑 ,
       form: initForm(),
@@ -281,17 +291,14 @@ export default {
       if (!registerHandsel) {
         this.$message.warning("请输入注册彩金");
         return false;
-
       }
       if (!otherHandsel) {
         this.$message.warning("请输入其他彩金");
         return false;
-
       }
       if (!bbannerBtn) {
         this.$message.warning("请输入按钮1文字");
         return false;
-
       }
       if (!bbannerBtnLink) {
         this.$message.warning("请输入按钮1链接");
@@ -300,7 +307,6 @@ export default {
       if (!bbannerBtn2) {
         this.$message.warning("请输入按钮2文字");
         return false;
-
       }
       if (!bbannerBtn2Link) {
         this.$message.warning("请输入按钮2链接");

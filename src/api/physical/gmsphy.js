@@ -12,7 +12,7 @@ export function add(data) {
   formData.append('phy', new Blob([JSON.stringify(data)], {
     type: 'application/json'
   }))
-  formData.append('imgIco', data.logoFile)
+  formData.append('logo', data.logoFile)
   return request({
     url: '/bphyh',
     method: 'post',
@@ -26,7 +26,7 @@ export function edit(data) {
   formData.append('phy', new Blob([JSON.stringify(data)], {
     type: 'application/json'
   }))
-  formData.append('imgIco', data.logoFile)
+  formData.append('logo', data.logoFile)
   return request({
     url: '/bphyh',
     method: 'put',

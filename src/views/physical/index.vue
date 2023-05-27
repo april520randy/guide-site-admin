@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <!-- CRUD操作 -->
-    <crud-operation :permission="permission" />
+    <crud-operation v-if="crud.data.length===0" :permission="permission" />
     <!-- 体育Banner列表  -->
     <el-table
       ref="table"
@@ -10,55 +10,54 @@
       style="width: 100%"
       @selection-change="crud.selectionChangeHandler"
     >
-      <el-table-column type="selection" width="55" />
+      <el-table-column type="selection" width="45" />
       <el-table-column
         :show-overflow-tooltip="true"
-        prop="bannerTopImg1"
-        label="轮播图"
-      />
+        prop="logo"
+        label="banner图片"
+      >
+        <template slot-scope="scope">
+          <el-image
+            style="width: 25px; height: 25px"
+            :src="loadLogo(scope.row.logo)"
+            :preview-src-list="[loadLogo(scope.row.logo)]"
+          />
+        </template>
+      </el-table-column>
       <el-table-column
         :show-overflow-tooltip="true"
         prop="bannerTopLink"
-        label="轮播图链接"
-      />
-      <el-table-column
-        :show-overflow-tooltip="true"
-        prop="otherContent"
-        label="其他内容"
+        label="banner链接"
       />
       <el-table-column
         :show-overflow-tooltip="true"
         prop="otherTitle"
-        label="其他标题"
+        label="底部标题1"
       />
       <el-table-column
         :show-overflow-tooltip="true"
         prop="otherBtn"
-        label="其他按钮"
+        label="底部标题按钮链接1"
+      />
+      <el-table-column
+        :show-overflow-tooltip="true"
+        prop="otherContent"
+        label="底部标题2"
       />
       <el-table-column
         :show-overflow-tooltip="true"
         prop="otherBtnLink"
-        label="其他按钮链接"
+        label="底部标题按钮链接2"
       />
-      <el-table-column
-        :show-overflow-tooltip="true"
-        prop="type"
-        label="banner类型"
-      />
-      <el-table-column
-        :show-overflow-tooltip="true"
-        prop="status"
-        label="banner状态"
-      />
-      <el-table-column label="操作" width="115" align="center" fixed="right">
+      <!-- <el-table-column :show-overflow-tooltip="true" prop="type" label="banner类型" /> -->
+      <el-table-column label="操作" width="200" align="center" fixed="right">
         <template slot-scope="scope">
           <ud-operation :data="scope.row" :permission="permission" />
         </template>
       </el-table-column>
     </el-table>
     <!-- 分页 -->
-    <pagination />
+    <!-- <pagination v-if="false" /> -->
     <!--表单渲染-->
     <el-dialog
       append-to-body
@@ -69,13 +68,12 @@
     >
       <el-form
         ref="form"
-        :inline="true"
         :model="form"
         :rules="rules"
         size="small"
-        label-width="100px"
+        label-width="140px"
       >
-        <el-form-item label="导航图片" prop="imgIco">
+        <el-form-item label="banner图片" prop="logo">
           <el-upload
             class="avatar-uploader"
             action=""
@@ -83,66 +81,62 @@
             :on-change="handleLogoSuccess"
             :show-file-list="false"
             accept="image/*"
-            style="width: 520px"
           >
             <img
-              v-if="form.imgIco"
-              :src="loadLogo(form.imgIco)"
+              v-if="form.logo"
+              :src="loadLogo(form.logo)"
               style="width: 50px; height: 50px"
+              class="avatar"
             />
-            <i v-else class="el-icon-plus" />
+            <i v-else class="el-icon-plus avatar-uploader-icon" />
           </el-upload>
         </el-form-item>
 
-        <el-form-item label="图片链接" prop="bannerTopLink">
+        <el-form-item label="banner链接" prop="bannerTopLink">
           <el-input
             v-model="form.bannerTopLink"
-            style="width: 220px"
+            style="width: 320px"
             @keydown.native="keydown($event)"
           />
         </el-form-item>
 
-        <el-form-item label="其他标题" prop="otherTitle">
+        <el-form-item label="底部标题1" prop="otherTitle">
           <el-input
             v-model="form.otherTitle"
-            style="width: 220px"
+            style="width: 320px"
+            @keydown.native="keydown($event)"
+          />
+        </el-form-item>
+        <el-form-item label="底部标题按钮链接1" prop="otherBtn">
+          <el-input
+            v-model="form.otherBtn"
+            style="width: 320px"
             @keydown.native="keydown($event)"
           />
         </el-form-item>
 
-        <el-form-item label="其他内容">
+        <el-form-item label="底部标题2">
           <el-input
             v-model.trim="form.otherContent"
             style="width: 320px"
-            rows="6"
-            type="textarea"
             maxlength="250"
           />
         </el-form-item>
-
-        <el-form-item label="其他按钮" prop="otherBtn">
-          <el-input
-            v-model="form.otherBtn"
-            style="width: 220px"
-            @keydown.native="keydown($event)"
-          />
-        </el-form-item>
-
-        <el-form-item label="按钮链接" prop="otherBtnLink">
+        <el-form-item label="底部标题按钮链接2" prop="otherBtnLink">
           <el-input
             v-model="form.otherBtnLink"
-            style="width: 220px"
+            style="width: 320px"
             @keydown.native="keydown($event)"
           />
         </el-form-item>
 
-        <el-form-item label="状态" prop="type">
+        <!-- <el-form-item label="状态" prop="status">
           <el-input
-            v-model="form.type"
+            v-model="form.status"
             style="width: 220px"
             @keydown.native="keydown($event)"
           />
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="text" @click="crud.cancelCU">取消</el-button>
@@ -172,7 +166,7 @@ export default {
   components: { Pagination, rrOperation, udOperation, crudOperation },
   cruds() {
     return CRUD({
-      title: "Banner体育",
+      // title: "Banner体育",
       url: "/bphyh",
       crudMethod: { ...crudBanner },
     });
@@ -182,6 +176,7 @@ export default {
     header(),
     form({
       // 表单初始值
+      bbannerId: null,
       bannerTopImg1: null,
       bannerTopLink: null,
       bannerTopImg2: null,
@@ -194,7 +189,7 @@ export default {
       bottomBtnLink: null,
       // type: null,
       status: 0,
-      imgIco: null,
+      logo: null,
       logoFile: null,
     }),
     crud(),
@@ -222,7 +217,7 @@ export default {
     },
     // 选择logo预览
     handleLogoSuccess(file) {
-      this.form.imgIco = URL.createObjectURL(file.raw);
+      this.form.logo = URL.createObjectURL(file.raw);
       this.form.logoFile = file.raw;
     },
     // 禁止输入空格
@@ -234,3 +229,29 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409eff;
+}
+.avatar-uploader-icon {
+  font-size: 24px;
+  color: #8c939d;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+}
+.avatar {
+  width: 50px;
+  height: 50px;
+  display: block;
+}
+</style>
