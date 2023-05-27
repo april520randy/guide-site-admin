@@ -6,7 +6,7 @@
 
 <script>
 // import CountTo from 'vue-count-to'
-import homeApi from '@/api/home'
+// import homeApi from '@/api/home'
 
 export default {
   name: 'Dashboard',
@@ -43,9 +43,9 @@ export default {
     }
   },
   created() {
-    homeApi.getHomeCount().then((res) => {
-      this.homeCount = res.data
-    })
+    // homeApi.getHomeCount().then((res) => {
+    //   this.homeCount = res.data
+    // })
   }
 }
 </script>
