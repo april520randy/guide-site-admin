@@ -44,22 +44,22 @@
       <el-table-column
         :show-overflow-tooltip="true"
         prop="bbannerBtn"
-        label="按钮1文字"
+        label="注册链接"
       />
       <el-table-column
         :show-overflow-tooltip="true"
         prop="bbannerBtnLink"
-        label="按钮1链接"
-      />
-      <el-table-column
-        :show-overflow-tooltip="true"
-        prop="bbannerBtn2"
-        label="按钮2文字"
+        label="IOS下载地址"
       />
       <el-table-column
         :show-overflow-tooltip="true"
         prop="bbannerBtn2Link"
-        label="按钮2链接"
+        label="Android下载地址"
+      />
+      <!-- <el-table-column
+        :show-overflow-tooltip="true"
+        prop="bbannerBtn2"
+        label="按钮2链接" -->
       />
       <el-table-column label="操作" width="200" align="center" fixed="right">
         <template slot-scope="scope">
@@ -88,7 +88,7 @@
       :visible.sync="isShowDialog"
       :title="title"
     >
-      <el-form ref="form" :model="form" size="small" label-width="100px">
+      <el-form ref="form" :model="form" size="small" label-width="140px">
         <el-form-item label="可见状态">
           <el-radio v-model="form.status" :label="1">显示</el-radio>
           <el-radio v-model="form.status" :label="0">隐藏</el-radio>
@@ -156,7 +156,7 @@
           />
         </el-form-item>
 
-        <el-form-item label="按钮1文字" prop="bbannerBtn">
+        <el-form-item label="注册链接" prop="bbannerBtn">
           <el-input
             v-model="form.bbannerBtn"
             style="width: 220px"
@@ -164,7 +164,7 @@
           />
         </el-form-item>
 
-        <el-form-item label="按钮1链接" prop="bbannerBtnLink">
+        <el-form-item label="IOS下载地址" prop="bbannerBtnLink">
           <el-input
             v-model="form.bbannerBtnLink"
             style="width: 220px"
@@ -172,21 +172,20 @@
           />
         </el-form-item>
 
-        <el-form-item label="按钮2文字" prop="bbannerBtn2">
-          <el-input
-            v-model="form.bbannerBtn2"
-            style="width: 220px"
-            @keydown.native="keydown($event)"
-          />
-        </el-form-item>
-
-        <el-form-item label="按钮2链接" prop="bbannerBtn2Link">
+        <el-form-item label="Android下载地址" prop="bbannerBtn2Link">
           <el-input
             v-model="form.bbannerBtn2Link"
             style="width: 220px"
             @keydown.native="keydown($event)"
           />
         </el-form-item>
+        <!-- <el-form-item label="按钮2链接" prop="bbannerBtn2Link">
+          <el-input
+            v-model="form.bbannerBtn2Link"
+            style="width: 220px"
+            @keydown.native="keydown($event)"
+          />
+        </el-form-item> -->
         <el-form-item label="排序">
           <el-input-number v-model="form.sort" :min="1" :max="999" label="描述文字"></el-input-number>
         </el-form-item>
