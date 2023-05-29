@@ -13,57 +13,38 @@
     >
       <span>新增</span>
     </el-button>
-    <!-- 体育列表 -->
+    <!-- 活动列表 -->
     <el-table ref="table" v-loading="loading" :data="data" style="width: 100%">
       <el-table-column
         :show-overflow-tooltip="true"
-        prop="bbannerTitle"
-        label="标题"
-      />
-      <el-table-column :show-overflow-tooltip="true" prop="logo" label="logo">
+        prop="actLogo"
+        label="活动图片"
+      >
         <template slot-scope="scope">
           <el-image
             style="width: 25px; height: 25px"
-            :src="loadLogo(scope.row.logo)"
-            :preview-src-list="[loadLogo(scope.row.logo)]"
+            :src="loadLogo(scope.row.actLogo)"
+            :preview-src-list="[loadLogo(scope.row.actLogo)]"
           />
         </template>
       </el-table-column>
 
       <el-table-column
         :show-overflow-tooltip="true"
-        prop="registerHandsel"
-        label="注册彩金"
+        prop="actBannerBtnLink"
+        label="活动链接"
       />
+
       <el-table-column
         :show-overflow-tooltip="true"
-        prop="otherHandsel"
-        label="其他彩金"
+        prop="actBannerTitle"
+        label="活动标题"
       />
-      <el-table-column
-        :show-overflow-tooltip="true"
-        prop="bbannerBtn"
-        label="注册链接"
-      />
-      <el-table-column
-        :show-overflow-tooltip="true"
-        prop="bbannerBtnLink"
-        label="IOS下载地址"
-      />
-      <el-table-column
-        :show-overflow-tooltip="true"
-        prop="bbannerBtn2Link"
-        label="Android下载地址"
-      />
-      <!-- <el-table-column
-        :show-overflow-tooltip="true"
-        prop="bbannerBtn2"
-        label="按钮2链接" -->
-      />
+
       <el-table-column label="可见状态">
         <template slot-scope="scope">
           <el-switch
-            v-model="scope.row.bstatus"
+            v-model="scope.row.actBannerStatus"
             active-color="#13ce66"
             inactive-color="#999"
             active-text="开"
@@ -104,7 +85,7 @@
       <el-form ref="form" :model="form" size="small" label-width="140px">
         <el-form-item label="可见状态">
           <el-switch
-            v-model="form.bstatus"
+            v-model="form.actBannerStatus"
             active-color="#13ce66"
             inactive-color="#999"
             active-text="开"
@@ -114,26 +95,7 @@
           </el-switch>
         </el-form-item>
 
-        <el-form-item label="类型">
-          <el-select v-model="form.btype" placeholder="请选择">
-            <el-option
-              v-for="item in types"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="标题" prop="bbannerTitle">
-          <el-input
-            v-model="form.bbannerTitle"
-            style="width: 220px"
-            @keydown.native="keydown($event)"
-          />
-        </el-form-item>
-
-        <el-form-item label="logo" prop="logo">
+        <el-form-item label="活动图片" prop="actLogo">
           <el-upload
             class="avatar-uploader"
             action=""
@@ -143,8 +105,8 @@
             accept="image/*"
           >
             <img
-              v-if="form.logo"
-              :src="loadLogo(form.logo)"
+              v-if="form.actLogo"
+              :src="loadLogo(form.actLogo)"
               style="width: 50px; height: 50px"
               class="avatar"
             />
@@ -152,58 +114,19 @@
           </el-upload>
         </el-form-item>
 
-        <el-form-item label="注册彩金">
+        <el-form-item label="活动链接">
           <el-input
-            v-model="form.registerHandsel"
+            v-model="form.actBannerBtnLink"
             style="width: 220px"
             @keydown.native="keydown($event)"
           />
         </el-form-item>
-        <el-form-item label="其他彩金">
+        <el-form-item label="活动标题">
           <el-input
-            v-model="form.otherHandsel"
+            v-model="form.actBannerTitle"
             style="width: 220px"
             @keydown.native="keydown($event)"
           />
-        </el-form-item>
-
-        <el-form-item label="注册链接" prop="bbannerBtn">
-          <el-input
-            v-model="form.bbannerBtn"
-            style="width: 220px"
-            @keydown.native="keydown($event)"
-          />
-        </el-form-item>
-
-        <el-form-item label="IOS下载地址" prop="bbannerBtnLink">
-          <el-input
-            v-model="form.bbannerBtnLink"
-            style="width: 220px"
-            @keydown.native="keydown($event)"
-          />
-        </el-form-item>
-
-        <el-form-item label="Android下载地址" prop="bbannerBtn2Link">
-          <el-input
-            v-model="form.bbannerBtn2Link"
-            style="width: 220px"
-            @keydown.native="keydown($event)"
-          />
-        </el-form-item>
-        <!-- <el-form-item label="按钮2链接" prop="bbannerBtn2Link">
-          <el-input
-            v-model="form.bbannerBtn2Link"
-            style="width: 220px"
-            @keydown.native="keydown($event)"
-          />
-        </el-form-item> -->
-        <el-form-item label="排序">
-          <el-input-number
-            v-model="form.sort"
-            :min="1"
-            :max="999"
-            label="描述文字"
-          ></el-input-number>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -216,19 +139,17 @@
 
 <script>
 import oss from "@/utils/oss";
-import { selectBphy, del, add, edit } from "@/api/physical/gmsphyb";
+import { selectBphy, del, add, edit } from "@/api/physical/bottomActivity";
 const initForm = () => ({
-  bbannerTitle: "",
-  logo: null,
+  actLogo: null,
   logoFile: null,
-  btype: "",
-  registerHandsel: "",
-  otherHandsel: "",
-  bbannerBtn: "",
-  bbannerBtnLink: "",
-  bbannerBtn2: "",
-  bbannerBtn2Link: "",
-  bstatus: 1,
+  actBannerBtn: "",
+  actBannerBtnCount: "",
+  actBannerBtnLink: "",
+  actBannerId: "",
+  actBannerStatus: "",
+  actBannerTitle: "",
+  actBannerType: "",
   sort: 1,
 });
 export default {
@@ -239,24 +160,6 @@ export default {
       data: [],
       status: 1, //1:新增 2:编辑 ,
       form: initForm(),
-      types: [
-        {
-          value: "1",
-          label: "B体育",
-        },
-        {
-          value: "2",
-          label: "米乐M6",
-        },
-        {
-          value: "3",
-          label: "BB体育",
-        },
-        {
-          value: "4",
-          label: "K体育",
-        },
-      ],
     };
   },
   computed: {
@@ -273,7 +176,7 @@ export default {
         if (res.code === 200) {
           let list = res.data.records;
           list.forEach((item) => {
-            item.bstatus = Number(item.bstatus) ? true : false;
+            item.actBannerStatus = Number(item.actBannerStatus) ? true : false;
           });
           this.data = res.data.records;
         }
@@ -281,59 +184,30 @@ export default {
     },
     verifyParams() {
       let isValid = true;
-      const {
-        btype,
-        bbannerTitle,
-        logo,
-        registerHandsel,
-        otherHandsel,
-        bbannerBtn,
-        bbannerBtnLink,
-        bbannerBtn2Link,
-      } = this.form;
-      if (!btype) {
-        this.$message.warning("请选择类型");
+      const { actLogo, actBannerBtnLink, actBannerTitle } = this.form;
+      if (!actBannerBtnLink) {
+        this.$message.warning("请输入活动链接");
         return false;
       }
-      if (!bbannerTitle) {
-        this.$message.warning("请输入标题");
+      if (!actBannerTitle) {
+        this.$message.warning("请输入活动标题");
+        return false;
+      }
+      if (!actLogo) {
+        this.$message.warning("请上传活动图片");
         return false;
       }
 
-      if (!logo) {
-        this.$message.warning("请上传图片");
-        return false;
-      }
-
-      if (!registerHandsel) {
-        this.$message.warning("请输入注册彩金");
-        return false;
-      }
-      if (!otherHandsel) {
-        this.$message.warning("请输入其他彩金");
-        return false;
-      }
-      if (!bbannerBtn) {
-        this.$message.warning("请输入注册链接");
-        return false;
-      }
-      if (!bbannerBtnLink) {
-        this.$message.warning("请输入IOS下载地址");
-        return false;
-      }
-      if (!bbannerBtn2Link) {
-        this.$message.warning("请输入Android下载地址");
-        return false;
-      }
       return isValid;
     },
     onSwitchChange(row) {
-      row.bstatus = row.bstatus ? 1 : 0;
+      row.actBannerStatus = row.actBannerStatus ? 1 : 0;
+      
       this.doEdit(row);
     },
     submit() {
       let data = { ...this.form };
-      data.bstatus = data.bstatus ? 1 : 0;
+      data.actBannerStatus = data.actBannerStatus ? 1 : 0;
       if (!this.verifyParams()) return;
       if (this.status === 1) {
         this.loading = true;
@@ -429,7 +303,8 @@ export default {
     },
     // 选择logo预览
     handleLogoSuccess(file) {
-      this.form.logo = URL.createObjectURL(file.raw);
+      console.log(file);
+      this.form.actLogo = URL.createObjectURL(file.raw);
       this.form.logoFile = file.raw;
     },
     // 禁止输入空格
