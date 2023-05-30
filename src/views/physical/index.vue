@@ -15,12 +15,12 @@
     </el-button>
     <!-- banner列表 -->
     <el-table ref="table" v-loading="loading" :data="data" style="width: 100%">
-      <el-table-column :show-overflow-tooltip="true" prop="imgPhone" label="banner图片">
+      <el-table-column :show-overflow-tooltip="true" prop="logo" label="banner图片">
         <template slot-scope="scope">
           <el-image
             style="width: 25px; height: 25px"
-            :src="loadLogo(scope.row.imgPhone)"
-            :preview-src-list="[loadLogo(scope.row.imgPhone)]"
+            :src="loadLogo(scope.row.logo)"
+            :preview-src-list="[loadLogo(scope.row.logo)]"
           />
         </template>
       </el-table-column>
@@ -90,7 +90,7 @@
         </el-form-item>
 
 
-        <el-form-item label="banner图片" prop="imgPhone">
+        <el-form-item label="banner图片" prop="logo">
           <el-upload
             class="avatar-uploader"
             action=""
@@ -100,8 +100,8 @@
             accept="image/*"
           >
             <img
-              v-if="form.imgPhone"
-              :src="loadLogo(form.imgPhone)"
+              v-if="form.logo"
+              :src="loadLogo(form.logo)"
               style="width: 50px; height: 50px"
               class="avatar"
             />
@@ -145,7 +145,7 @@ import oss from "@/utils/oss";
 import { selectBphy, del, add, edit } from "@/api/physical/gmsphy";
 const initForm = () => ({
   bannerTopLink: "",
-  imgPhone: null,
+  logo: null,
   logoFile: null,
   phyStatus: 1,
   otherTitle: "",
@@ -189,12 +189,12 @@ export default {
     verifyParams() {
       let isValid = true;
       const {
-        imgPhone,
+        logo,
         bannerTopLink,
-        otherTitle,
+        // otherTitle,
       } = this.form;
 
-      if (!imgPhone) {
+      if (!logo) {
         this.$message.warning("请上传图片");
         return false;
       }
@@ -203,10 +203,10 @@ export default {
         this.$message.warning("请输入banner链接");
         return false;
       }
-      if (!otherTitle) {
-        this.$message.warning("请输入备注");
-        return false;
-      }
+      // if (!otherTitle) {
+      //   this.$message.warning("请输入备注");
+      //   return false;
+      // }
       return isValid;
     },
     onSwitchChange(row) {
@@ -312,7 +312,7 @@ export default {
     },
     // 选择logo预览
     handleLogoSuccess(file) {
-      this.form.imgPhone = URL.createObjectURL(file.raw);
+      this.form.logo = URL.createObjectURL(file.raw);
       this.form.logoFile = file.raw;
     },
     // 禁止输入空格

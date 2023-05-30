@@ -15,7 +15,7 @@
     </el-button>
     <!-- 活动列表 -->
     <el-table ref="table" v-loading="loading" :data="data" style="width: 100%">
-      <el-table-column
+      <!-- <el-table-column
         :show-overflow-tooltip="true"
         prop="actLogo"
         label="活动图片"
@@ -27,18 +27,16 @@
             :preview-src-list="[loadLogo(scope.row.actLogo)]"
           />
         </template>
-      </el-table-column>
-
-      <el-table-column
-        :show-overflow-tooltip="true"
-        prop="actBannerBtnLink"
-        label="活动链接"
-      />
-
+      </el-table-column> -->
       <el-table-column
         :show-overflow-tooltip="true"
         prop="actBannerTitle"
         label="活动标题"
+      />
+      <el-table-column
+        :show-overflow-tooltip="true"
+        prop="actBannerBtnLink"
+        label="活动链接"
       />
 
       <el-table-column label="可见状态">
@@ -95,7 +93,7 @@
           </el-switch>
         </el-form-item>
 
-        <el-form-item label="活动图片" prop="actLogo">
+        <!-- <el-form-item label="活动图片" prop="actLogo">
           <el-upload
             class="avatar-uploader"
             action=""
@@ -112,18 +110,17 @@
             />
             <i v-else class="el-icon-plus avatar-uploader-icon" />
           </el-upload>
-        </el-form-item>
-
-        <el-form-item label="活动链接">
+        </el-form-item> -->
+        <el-form-item label="活动标题">
           <el-input
-            v-model="form.actBannerBtnLink"
+            v-model="form.actBannerTitle"
             style="width: 220px"
             @keydown.native="keydown($event)"
           />
         </el-form-item>
-        <el-form-item label="活动标题">
+        <el-form-item label="活动链接">
           <el-input
-            v-model="form.actBannerTitle"
+            v-model="form.actBannerBtnLink"
             style="width: 220px"
             @keydown.native="keydown($event)"
           />
@@ -193,16 +190,16 @@ export default {
         this.$message.warning("请输入活动标题");
         return false;
       }
-      if (!actLogo) {
-        this.$message.warning("请上传活动图片");
-        return false;
-      }
+      // if (!actLogo) {
+      //   this.$message.warning("请上传活动图片");
+      //   return false;
+      // }
 
       return isValid;
     },
     onSwitchChange(row) {
       row.actBannerStatus = row.actBannerStatus ? 1 : 0;
-      
+
       this.doEdit(row);
     },
     submit() {

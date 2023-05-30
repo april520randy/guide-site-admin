@@ -13,7 +13,7 @@ export function add(data) {
   formData.append('gmsPhyact', new Blob([JSON.stringify(data)], {
     type: 'application/json'
   }))
-  formData.append('imgPhone', data.logoFile)
+  formData.append('logo', data.logoFile)
   return request({
     url: '/phyact',
     method: 'post',
