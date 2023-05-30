@@ -136,15 +136,15 @@
         <el-form-item label="logo" prop="logo">
           <el-upload
             class="avatar-uploader"
-            action=""
-            :auto-upload="false"
-            :on-change="handleLogoSuccess"
+            :action="action"
+            :on-success="handleAvatarSuccess"
+            :headers="getHeaders()"
             :show-file-list="false"
             accept="image/*"
           >
             <img
               v-if="form.logo"
-              :src="loadLogo(form.logo)"
+              :src="form.logo"
               style="width: 50px; height: 50px"
               class="avatar"
             />
@@ -257,6 +257,7 @@ export default {
           label: "K体育",
         },
       ],
+      action:oss.uploadApi
     };
   },
   computed: {
@@ -268,6 +269,15 @@ export default {
     this.getList();
   },
   methods: {
+    getHeaders: oss.getHeaders,
+    handleAvatarSuccess(res, file) {
+      this.form.logo = URL.createObjectURL(file.raw);
+      if (res.code === 200) {
+        this.form.logo = res.data.data.url;
+      } else {
+        this.$message({ type: "warning", message: res.message });
+      }
+    },
     getList() {
       selectBphy().then((res) => {
         if (res.code === 200) {

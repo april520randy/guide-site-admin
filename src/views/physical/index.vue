@@ -15,7 +15,11 @@
     </el-button>
     <!-- banner列表 -->
     <el-table ref="table" v-loading="loading" :data="data" style="width: 100%">
-      <el-table-column :show-overflow-tooltip="true" prop="logo" label="banner图片">
+      <el-table-column
+        :show-overflow-tooltip="true"
+        prop="logo"
+        label="banner图片"
+      >
         <template slot-scope="scope">
           <el-image
             style="width: 25px; height: 25px"
@@ -89,19 +93,18 @@
           </el-switch>
         </el-form-item>
 
-
         <el-form-item label="banner图片" prop="logo">
           <el-upload
             class="avatar-uploader"
-            action=""
-            :auto-upload="false"
-            :on-change="handleLogoSuccess"
+            :action="action"
+            :on-success="handleAvatarSuccess"
+            :headers="getHeaders()"
             :show-file-list="false"
             accept="image/*"
           >
             <img
               v-if="form.logo"
-              :src="loadLogo(form.logo)"
+              :src="form.logo"
               style="width: 50px; height: 50px"
               class="avatar"
             />
@@ -150,10 +153,10 @@ const initForm = () => ({
   phyStatus: 1,
   otherTitle: "",
   //
-  otherBtn:'',
-  otherBtnLink:'',
-  otherContent:'',
-  phyCount:'',
+  otherBtn: "",
+  otherBtnLink: "",
+  otherContent: "",
+  phyCount: "",
   sort: 1,
 });
 export default {
@@ -164,6 +167,7 @@ export default {
       data: [],
       status: 1, //1:新增 2:编辑 ,
       form: initForm(),
+      action:oss.uploadApi
     };
   },
   computed: {
@@ -175,6 +179,15 @@ export default {
     this.getList();
   },
   methods: {
+    getHeaders: oss.getHeaders,
+    handleAvatarSuccess(res, file) {
+      this.form.logo = URL.createObjectURL(file.raw);
+      if (res.code === 200) {
+        this.form.logo = res.data.data.url;
+      } else {
+        this.$message({ type: "warning", message: res.message });
+      }
+    },
     getList() {
       selectBphy().then((res) => {
         if (res.code === 200) {
@@ -211,7 +224,7 @@ export default {
     },
     onSwitchChange(row) {
       row.phyStatus = row.phyStatus ? 1 : 0;
-      console.log(row)
+      console.log(row);
       this.doEdit(row);
     },
     submit() {
