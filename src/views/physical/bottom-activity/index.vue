@@ -93,12 +93,11 @@
           </el-switch>
         </el-form-item>
 
-        <!-- <el-form-item label="活动图片" prop="actLogo">
-          <el-upload
+        <el-form-item label="活动图片" prop="actLogo">
+          <!-- <el-upload
             class="avatar-uploader"
             action=""
-            :auto-upload="false"
-            :on-change="handleLogoSuccess"
+            :http-request="upload"
             :show-file-list="false"
             accept="image/*"
           >
@@ -109,8 +108,8 @@
               class="avatar"
             />
             <i v-else class="el-icon-plus avatar-uploader-icon" />
-          </el-upload>
-        </el-form-item> -->
+          </el-upload> -->
+        </el-form-item>
         <el-form-item label="活动标题">
           <el-input
             v-model="form.actBannerTitle"
@@ -136,6 +135,7 @@
 
 <script>
 import oss from "@/utils/oss";
+import { upload } from "@/api/physical/upload";
 import { selectBphy, del, add, edit } from "@/api/physical/bottomActivity";
 const initForm = () => ({
   actLogo: null,
@@ -168,6 +168,15 @@ export default {
     this.getList();
   },
   methods: {
+    upload({ file }) {
+      upload(file).then((res) => {
+        if (res.code) {
+          this.form.actLogo = res.data.data.url;
+        } else {
+          this.$message({ type: "warning", message: res.message });
+        }
+      });
+    },
     getList() {
       selectBphy().then((res) => {
         if (res.code === 200) {
@@ -181,11 +190,11 @@ export default {
     },
     verifyParams() {
       let isValid = true;
-      const { 
-        // actLogo, 
-        actBannerBtnLink, 
-        actBannerTitle
-       } = this.form;
+      const {
+        // actLogo,
+        actBannerBtnLink,
+        actBannerTitle,
+      } = this.form;
       if (!actBannerBtnLink) {
         this.$message.warning("请输入活动链接");
         return false;
@@ -202,9 +211,10 @@ export default {
       return isValid;
     },
     onSwitchChange(row) {
-      row.actBannerStatus = row.actBannerStatus ? 1 : 0;
+      let newRow = {...row}
+      newRow.actBannerStatus = newRow.actBannerStatus ? 1 : 0;
 
-      this.doEdit(row);
+      this.doEdit(newRow);
     },
     submit() {
       let data = { ...this.form };
@@ -288,7 +298,7 @@ export default {
     edit(row) {
       this.openDialog();
       this.status = 2;
-      this.form = row;
+      this.form = {...row};
       const data = { ...this.form };
       console.log(data);
     },
@@ -308,6 +318,7 @@ export default {
       this.form.actLogo = URL.createObjectURL(file.raw);
       this.form.logoFile = file.raw;
     },
+
     // 禁止输入空格
     keydown(e) {
       if (e.keyCode === 32) {

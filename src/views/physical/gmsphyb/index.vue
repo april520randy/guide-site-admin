@@ -338,8 +338,9 @@ export default {
       return isValid;
     },
     onSwitchChange(row) {
-      row.bstatus = row.bstatus ? 1 : 0;
-      this.doEdit(row);
+      let newRow = {...row}
+      newRow.bstatus = newRow.bstatus ? 1 : 0;
+      this.doEdit(newRow);
     },
     submit() {
       let data = { ...this.form };
@@ -423,7 +424,7 @@ export default {
     edit(row) {
       this.openDialog();
       this.status = 2;
-      this.form = row;
+      this.form = {...row};
       const data = { ...this.form };
       console.log(data);
     },

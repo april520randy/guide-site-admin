@@ -223,9 +223,9 @@ export default {
       return isValid;
     },
     onSwitchChange(row) {
-      row.phyStatus = row.phyStatus ? 1 : 0;
-      console.log(row);
-      this.doEdit(row);
+      let newRow = {...row}
+      newRow.phyStatus = newRow.phyStatus ? 1 : 0;
+      this.doEdit(newRow);
     },
     submit() {
       let data = { ...this.form };
@@ -309,7 +309,7 @@ export default {
     edit(row) {
       this.openDialog();
       this.status = 2;
-      this.form = row;
+      this.form = {...row};
       const data = { ...this.form };
       console.log(data);
     },
