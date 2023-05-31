@@ -32,9 +32,9 @@
           <router-link to="/changePassword">
             <el-dropdown-item>修改密码</el-dropdown-item>
           </router-link>
-          <a target="_blank" href="https://github.com/ycf1998">
+          <!-- <a target="_blank" href="https://github.com/ycf1998">
             <el-dropdown-item>Github</el-dropdown-item>
-          </a>
+          </a> -->
           <el-dropdown-item divided @click.native="logout">
             <span style="display:block;">注销</span>
           </el-dropdown-item>
