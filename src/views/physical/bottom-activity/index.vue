@@ -181,7 +181,11 @@ export default {
     },
     verifyParams() {
       let isValid = true;
-      const { actLogo, actBannerBtnLink, actBannerTitle } = this.form;
+      const { 
+        // actLogo, 
+        actBannerBtnLink, 
+        actBannerTitle
+       } = this.form;
       if (!actBannerBtnLink) {
         this.$message.warning("请输入活动链接");
         return false;
