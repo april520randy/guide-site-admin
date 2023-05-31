@@ -13,7 +13,7 @@ export function add(data) {
   formData.append('gmsPhyB', new Blob([JSON.stringify(data)], {
     type: 'application/json'
   }))
-  formData.append('logo', data.logoFile)
+  // formData.append('logo', data.logoFile)
   return request({
     url: '/bphy',
     method: 'post',
@@ -29,7 +29,7 @@ export function edit(data) {
   formData.append('gmsPhyB', new Blob([JSON.stringify(data)], {
     type: 'application/json'
   }))
-  formData.append('logo', data.logoFile)
+  // formData.append('logo', data.logoFile)
   return request({
     url: '/bphy',
     method: 'put',
