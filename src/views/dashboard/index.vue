@@ -9,7 +9,7 @@
                 <span>{{ tab.label }}页面浏览次数</span>
               </div>
               <el-row type="flex" justify="space-between" align="center">
-                <count-to :start-val="0" :end-val="homeCount[tab.name].orderCount" :duration="2200" class="card-panel-num" />
+                <count-to :start-val="0" :end-val="homeCount[tab.name].viewCount" :duration="2200" class="card-panel-num" />
               </el-row>
             </el-card>
           </el-col>
@@ -19,7 +19,7 @@
                 <span>{{ tab.label }}点击注册次数</span>
               </div>
               <el-row type="flex" justify="space-between" align="center">
-                <count-to :start-val="0" :decimals="2" :end-val="homeCount[tab.name].saleCount" :duration="2200" class="card-panel-num" />
+                <count-to :start-val="0" :decimals="0" :end-val="homeCount[tab.name].clickCount1" :duration="2200" class="card-panel-num" />
               </el-row>
             </el-card>
           </el-col>
@@ -29,7 +29,7 @@
                 <span>{{ tab.label }}点击下载次数</span>
               </div>
               <el-row type="flex" justify="space-between" align="center">
-                <count-to :start-val="0" :decimals="2" :end-val="homeCount[tab.name].profit" :duration="2200" class="card-panel-num" />
+                <count-to :start-val="0" :decimals="0" :end-val="homeCount[tab.name].clickCount2" :duration="2200" class="card-panel-num" />
               </el-row>
             </el-card>
           </el-col>

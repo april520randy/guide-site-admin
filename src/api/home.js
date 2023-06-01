@@ -2,7 +2,7 @@ import request from './request'
 
 export function getHomeCount() {
   return request({
-    url: '/home/count',
+    url: '/sys/sysviewcount',
     method: 'get'
   })
 }
