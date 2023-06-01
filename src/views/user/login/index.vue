@@ -35,8 +35,8 @@ export default {
   data() {
     return {
       loginForm: {
-        username: 'money',
-        password: '123'
+        username: '',
+        password: ''
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur' }],

@@ -7,4 +7,11 @@ export function getHomeCount() {
   })
 }
 
-export default { getHomeCount }
+export function sysClickcount() {
+  return request({
+    url: '/sys/sysClickcount',
+    method: 'get'
+  })
+}
+
+export default { getHomeCount,sysClickcount }
