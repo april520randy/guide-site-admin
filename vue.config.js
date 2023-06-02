@@ -8,7 +8,7 @@ function resolve (dir) {
 module.exports = defineConfig({
   publicPath: process.env.ENV === 'staging' ? '/money-pos-demo' : '/money-pos',
   outputDir: 'dist',
-  assetsDir: 'money-pos/static',
+  assetsDir: 'static',
   transpileDependencies: true,
   lintOnSave: false,
   devServer: {

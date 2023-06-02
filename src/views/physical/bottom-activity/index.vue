@@ -93,8 +93,8 @@
           </el-switch>
         </el-form-item>
 
-        <el-form-item label="活动图片" prop="actLogo">
-          <!-- <el-upload
+        <!-- <el-form-item label="活动图片" prop="actLogo">
+          <el-upload
             class="avatar-uploader"
             action=""
             :http-request="upload"
@@ -108,8 +108,8 @@
               class="avatar"
             />
             <i v-else class="el-icon-plus avatar-uploader-icon" />
-          </el-upload> -->
-        </el-form-item>
+          </el-upload>
+        </el-form-item> -->
         <el-form-item label="活动标题">
           <el-input
             v-model="form.actBannerTitle"
